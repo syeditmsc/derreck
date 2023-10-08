@@ -1,0 +1,38 @@
+#zebra
+$url = "https://onedrive.live.com/download?resid=8BDD1CE6FDED35D4%21877&authkey=!ALJc6-DiW80fFP0"
+$path = "$env:USERPROFILE\Downloads\zebra.exe"
+Invoke-WebRequest -Uri $url -OutFile $path
+
+Start-Process -FilePath $path -ArgumentList "/s"
+
+
+#printnode
+
+$url = "https://onedrive.live.com/download?resid=8BDD1CE6FDED35D4%21872&authkey=!AFdrjJEHyQTHj1E"
+$path = "$env:USERPROFILE\Downloads\printnode.exe"
+Invoke-WebRequest -Uri $url -OutFile $path
+
+Start-Process -FilePath $path -ArgumentList "/SILENT"
+Start-Sleep -Seconds 10
+Add-Type -AssemblyName System.Windows.Forms
+
+[System.Windows.Forms.SendKeys]::SendWait("{Enter}")
+Start-Sleep -Seconds 10
+$url = "https://onedrive.live.com/download?resid=8BDD1CE6FDED35D4%21876&authkey=!AM7G2oBi0otZnO0"
+$path = "$env:USERPROFILE\Downloads\tsp100_v770.zip"
+
+Invoke-WebRequest -Uri $url -OutFile $path
+
+#$compressedFolderPath = "$env:USERPROFILE\Downloads\tsp100_v770"
+$compressedFolderPath = "C:\Users\user\Downloads"
+$extractToPath = "$env:USERPROFILE\Downloads"
+$extractToPath = $extractToPath + "\tsp100_v770"
+if (-not (Test-Path -Path $extractToPath)) {
+    New-Item -ItemType Directory -Path $extractToPath | Out-Null
+    }
+# Extract the compressed folder
+cd $compressedFolderPath
+Expand-Archive -Path tsp100_v770.zip -DestinationPath $extractToPath
+
+$path= "$env:USERPROFILE\Downloads\tsp100_v770\Windows\Installer\setup_x64.exe"
+Start-Process -FilePath $path -ArgumentList "/s /v/qn"
